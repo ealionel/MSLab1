@@ -1,0 +1,14 @@
+{
+  "name": "MSLab1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:ealionel/MSLab1.git",
+  "author": "Lionel EA <ealionel3@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "video.js": "^7.11.4"
+  },
+  "dependencies": {
+    "tailwindcss": "^2.0.3"
+  }
+}
