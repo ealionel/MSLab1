@@ -43,7 +43,7 @@ class Playlist {
  * @param {string} src
  * @param {number} index
  */
-const createPlaylistQueueElement = (controls, playlist, src, index) => {
+const createPlaylistQueueElement = (controls, src, index) => {
   const div = document.createElement("div");
   div.className = "playlist-queue-element-div";
 
@@ -62,12 +62,13 @@ const createPlaylistQueueElement = (controls, playlist, src, index) => {
   removeButton.className = "remove-button";
 
   loadButton.addEventListener("click", () => {
-    // TODO: URL validation
     console.log(`Setting ${src} as source`);
     controls.load(src);
   });
 
-  removeButton.addEventListener("click", () => playlist.removeVideo(index));
+  removeButton.addEventListener("click", () =>
+    controls.playlist.removeVideo(index)
+  );
 
   div.appendChild(itemTitle);
   div.appendChild(loadButton);
@@ -79,9 +80,8 @@ const createPlaylistQueueElement = (controls, playlist, src, index) => {
 /**
  *
  * @param {Element} playlistDOM
- * @param {Playlist} playlist
  */
-const initializeDOMPlaylist = (playlistDOM, playlist, controls) => {
+const initializeDOMPlaylist = (playlistDOM, controls) => {
   const playlistAddButton = playlistDOM.querySelector(".playlist-add-button");
   const playlistAddInput = playlistDOM.querySelector(".playlist-add-input");
   const playlistShuffleButton = playlistDOM.querySelector(
@@ -95,21 +95,19 @@ const initializeDOMPlaylist = (playlistDOM, playlist, controls) => {
     queueDOM.innerHTML = "";
 
     playlist.queue.forEach((src, index) => {
-      const queueElement = createPlaylistQueueElement(
-        controls,
-        playlist,
-        src,
-        index
-      );
+      const queueElement = createPlaylistQueueElement(controls, src, index);
       queueDOM.appendChild(queueElement);
     });
   };
 
-  playlist.subscribe(playlistObserver);
+  controls.playlist.subscribe(playlistObserver);
+  controls.playlist.notifyAll();
 
   playlistAddButton.addEventListener("click", () =>
-    playlist.addVideo(playlistAddInput.value)
+    controls.playlist.addVideo(playlistAddInput.value)
   );
 
   playlistShuffleButton.addEventListener("click", () => playlist.shuffle());
+
+  controls.onFinish((playlist) => {});
 };
