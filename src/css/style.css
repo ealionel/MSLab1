@@ -1,0 +1,34 @@
+.playlist-div {
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+}
+
+.playlist-div .playlist-queue-div {
+}
+
+.playlist-add-div {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.playlist-add-div input {
+  width: 50%;
+}
+
+.playlist-queue-div input {
+  width: 80%;
+  min-width: 200px;
+}
+
+.playlist-queue-element-div {
+  display: flex;
+  align-items: center;
+  border: 1px solid gray;
+  margin-top: 3px;
+  padding: 5px;
+}
+
+.playlist-queue-element-div p {
+  flex-basis: 80%;
+}

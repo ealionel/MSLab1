@@ -6,8 +6,6 @@ const controlButtons = {
   jumpBackward: document.querySelector("#jump-backward-button"),
 };
 
-const mainPlayer = videojs("main-video");
-
 /**
  *
  * @param {videojs.VideoJsPlayer} player
@@ -28,9 +26,12 @@ const createVideoPlayerControl = (player) => ({
   jumpBackward: () => {
     player.currentTime(player.currentTime() - 5);
   },
+  load: (src) => {
+    player.src = src;
+    player.load();
+    console.log(player.currentType());
+  },
 });
-
-const controls = createVideoPlayerControl(mainPlayer);
 
 const mapButtonsToHandler = () => {
   controlButtons.play.addEventListener("click", controls.play);
@@ -38,7 +39,3 @@ const mapButtonsToHandler = () => {
   controlButtons.jumpForward.addEventListener("click", controls.jumpForward);
   controlButtons.jumpBackward.addEventListener("click", controls.jumpBackward);
 };
-
-mapButtonsToHandler();
-
-const playlist = new Playlist();
