@@ -1,3 +1,15 @@
+# Features implemented
+
+- Video player (with `videojs`)
+- External video control (play, pause, go forward, go backward)
+- Playlist management :
+  - Adding new video to the playlist
+  - Removing video from the playlist 
+  - Shuffling the playlist
+  - Go to a desired video on the playlist
+  - Automatically loads next video when a video finishes
+
+
 # MSLab1
 
 This lab aims to build your first HTML5 live stream (HLS) player.
