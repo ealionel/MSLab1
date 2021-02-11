@@ -9,6 +9,7 @@
   - Go to a desired video on the playlist
   - Automatically loads next video when a video finishes
 
+Tested on latest versions of **Chrome** and **Safari**.
 
 # MSLab1
 
