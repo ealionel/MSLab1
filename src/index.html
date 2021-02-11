@@ -9,39 +9,40 @@
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
-    <h1>My first HLS player</h1>
+    <div class="video-div">
+      <h1>My first HLS player</h1>
 
-    <video
-      id="main-video"
-      class="video-js"
-      controls
-      preload="auto"
-      width="640"
-      height="264"
-      data-setup="{}"
-    >
-      <source
-        src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-        type="video/mp4"
-      />
-      <p class="vjs-no-js">
-        To view this video please enable JavaScript, and consider upgrading to a
-        web browser that
-        <a href="https://videojs.com/html5-video-support/" target="_blank"
-          >supports HTML5 video</a
-        >
-      </p>
-    </video>
+      <video
+        id="main-video"
+        class="video-js"
+        controls
+        preload="auto"
+        data-setup="{}"
+      >
+        <source
+          src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+          type="video/mp4"
+        />
+        <p class="vjs-no-js">
+          To view this video please enable JavaScript, and consider upgrading to
+          a web browser that
+          <a href="https://videojs.com/html5-video-support/" target="_blank"
+            >supports HTML5 video</a
+          >
+        </p>
+      </video>
 
-    <button id="play-button" type="button">Play</button>
-    <button id="pause-button" type="button">Pause</button>
-    <button id="stop-button" type="button">Stop</button>
-    <button id="jump-backward-button" type="button">
-      Jump to 5 sec backwards
-    </button>
-    <button id="jump-forward-button" type="button">
-      Jump to 5 sec forward
-    </button>
+      <div class="player-control-div">
+        <button id="play-button" type="button">Play</button>
+        <button id="pause-button" type="button">Pause</button>
+        <button id="jump-backward-button" type="button">
+          Jump to 5 sec backwards
+        </button>
+        <button id="jump-forward-button" type="button">
+          Jump to 5 sec forward
+        </button>
+      </div>
+    </div>
 
     <div class="playlist-div">
       <h2 class="title">Playlist</h2>

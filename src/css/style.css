@@ -1,38 +1,70 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background: rgb(194, 240, 54);
+  background: linear-gradient(
+    184deg,
+    rgba(194, 240, 54, 1) 23%,
+    rgba(59, 221, 114, 1) 100%
+  );
+  padding-bottom: 300px;
+  padding-top: 50px;
+}
+
+.video-div {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.video-div h1 {
+  color: rgb(43, 99, 5);
+}
+
+.video-div .player-control-div {
+  margin: 20px;
+}
+
 .playlist-div {
   display: flex;
   flex-direction: column;
   width: 45%;
+  margin: auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
-.playlist-div .playlist-queue-div {
-}
-
-.playlist-add-div {
+.playlist-div .playlist-add-div {
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-.playlist-add-div input {
-  width: 50%;
-}
-
-.playlist-queue-div input {
-  width: 80%;
-  min-width: 200px;
+.playlist-div .playlist-add-input {
+  width: 70%;
 }
 
 .playlist-queue-element-div {
   display: flex;
   align-items: center;
   border: 1px solid gray;
-  margin-top: 3px;
-  padding: 5px;
+  margin-top: 10px;
+  padding: 10px;
+  font-family: "Source Code Pro", Courier, monospace;
 }
 
 .playlist-queue-element-div.playing {
-  background-color: tomato;
+  border: 3px solid indianred;
 }
 
 .playlist-queue-element-div p {
   flex-basis: 80%;
+}
+
+#main-video {
+  width: 80%;
+  border-radius: 20px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }

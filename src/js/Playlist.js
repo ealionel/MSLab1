@@ -25,6 +25,7 @@ class Playlist {
 
   shuffle() {
     this.queue = shuffle(this.queue);
+    this.setCurrent(0);
     this.notifyAll(PlaylistEvent.PLAYLIST_CHANGE);
   }
 
@@ -161,7 +162,9 @@ const initializeDOMPlaylist = (playlistDOM, controls) => {
     controls.playlist.addVideo(playlistAddInput.value)
   );
 
-  playlistShuffleButton.addEventListener("click", () => playlist.shuffle());
+  playlistShuffleButton.addEventListener("click", () =>
+    controls.playlist.shuffle()
+  );
 
   const handleVideoChange = (playlist) => {
     controls.load(playlist.getCurrent());
