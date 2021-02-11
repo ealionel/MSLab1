@@ -33,7 +33,7 @@ const createVideoPlayerControl = (player) => {
       player.play();
     },
     onFinish: (callback) => {
-      player.on("end", callback);
+      player.on("ended", () => callback(playlist));
     },
     playlist,
   };

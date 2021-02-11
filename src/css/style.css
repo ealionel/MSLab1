@@ -29,6 +29,10 @@
   padding: 5px;
 }
 
+.playlist-queue-element-div.playing {
+  background-color: tomato;
+}
+
 .playlist-queue-element-div p {
   flex-basis: 80%;
 }

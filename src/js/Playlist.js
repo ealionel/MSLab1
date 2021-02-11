@@ -1,8 +1,13 @@
+const PlaylistEvent = {
+  PLAYLIST_CHANGE: "playlistChange",
+  CURRENT_VIDEO_CHANGE: "currentVideoChange",
+};
+
 class Playlist {
   queue = [];
   current = 0;
   player = null;
-  observers = [];
+  subscribers = [];
 
   constructor(initialQueue) {
     this.queue = initialQueue || [];
@@ -10,30 +15,75 @@ class Playlist {
 
   addVideo(src) {
     this.queue = [...this.queue, src];
-    this.notifyAll();
+    this.notifyAll(PlaylistEvent.PLAYLIST_CHANGE);
   }
 
   removeVideo(index) {
     this.queue = this.queue.filter((_, i) => i !== index);
-    this.notifyAll();
+    this.notifyAll(PlaylistEvent.PLAYLIST_CHANGE);
   }
 
   shuffle() {
     this.queue = shuffle(this.queue);
-    this.notifyAll();
+    this.notifyAll(PlaylistEvent.PLAYLIST_CHANGE);
   }
 
-  subscribe(observer) {
-    this.observers.push(observer);
-    return this.unsubscribe(observer);
+  getCurrent() {
+    return this.queue[this.current];
   }
 
-  unsubscribe(observer) {
-    this.observers.filter((obs) => obs !== observer);
+  setCurrent(current) {
+    this.current = current;
+    this.notifyAll(PlaylistEvent.CURRENT_VIDEO_CHANGE);
   }
 
-  notifyAll() {
-    this.observers.forEach((observer) => observer(this));
+  getCurrentIndex() {
+    return this.current;
+  }
+
+  getPlaylistLength() {
+    return this.queue.length;
+  }
+
+  nextVideo() {
+    if (this.hasNext()) this.setCurrent(this.current + 1);
+  }
+
+  previousVideo() {
+    if (this.hasPrevious()) this.setCurrent(this.current - 1);
+  }
+
+  hasNext() {
+    return this.isEmpty() || this.current < this.getPlaylistLength() - 1;
+  }
+
+  hasPrevious() {
+    return this.isEmpty() || this.current > 0;
+  }
+
+  isEmpty() {
+    return this.getPlaylistLength() === 0;
+  }
+
+  subscribe(event, observer) {
+    const subscribed = {
+      event,
+      observer,
+    };
+
+    this.subscribers.push(subscribed);
+
+    return this.unsubscribe(subscribed);
+  }
+
+  unsubscribe(subscriber) {
+    this.subscribers.filter((obs) => obs !== subscriber);
+  }
+
+  notifyAll(event) {
+    this.subscribers.forEach((sub) => {
+      if (sub.event === event) sub.observer(this);
+    });
   }
 }
 
@@ -45,7 +95,11 @@ class Playlist {
  */
 const createPlaylistQueueElement = (controls, src, index) => {
   const div = document.createElement("div");
-  div.className = "playlist-queue-element-div";
+  div.classList.add("playlist-queue-element-div");
+
+  if (controls.playlist.getCurrentIndex() === index) {
+    div.classList.add("playing");
+  }
 
   const itemTitle = document.createElement("p");
   itemTitle.innerHTML = src;
@@ -62,8 +116,8 @@ const createPlaylistQueueElement = (controls, src, index) => {
   removeButton.className = "remove-button";
 
   loadButton.addEventListener("click", () => {
-    console.log(`Setting ${src} as source`);
-    controls.load(src);
+    console.log(`Setting ${index} ${src} as source`);
+    controls.playlist.setCurrent(index);
   });
 
   removeButton.addEventListener("click", () =>
@@ -100,8 +154,8 @@ const initializeDOMPlaylist = (playlistDOM, controls) => {
     });
   };
 
-  controls.playlist.subscribe(playlistObserver);
-  controls.playlist.notifyAll();
+  controls.playlist.subscribe(PlaylistEvent.PLAYLIST_CHANGE, playlistObserver);
+  controls.playlist.notifyAll(PlaylistEvent.PLAYLIST_CHANGE);
 
   playlistAddButton.addEventListener("click", () =>
     controls.playlist.addVideo(playlistAddInput.value)
@@ -109,5 +163,26 @@ const initializeDOMPlaylist = (playlistDOM, controls) => {
 
   playlistShuffleButton.addEventListener("click", () => playlist.shuffle());
 
-  controls.onFinish((playlist) => {});
+  const handleVideoChange = (playlist) => {
+    controls.load(playlist.getCurrent());
+    playlistObserver(playlist);
+  };
+
+  controls.playlist.subscribe(
+    PlaylistEvent.CURRENT_VIDEO_CHANGE,
+    handleVideoChange
+  );
+
+  // Handles when video finishes to go to next one
+  controls.onFinish((playlist) => {
+    if (playlist.hasNext()) {
+      console.log("Loading next video");
+      playlist.nextVideo();
+    } else {
+      console.log("End of playlist");
+      controls.pause();
+    }
+  });
+
+  console.log("Playlist initialization finished");
 };
